@@ -1,0 +1,60 @@
+{
+  "name": "girgit",
+  "version": "1.0.0",
+  "description": "A framework for building stealth applications",
+  "main": "./main.js",
+  "scripts": {
+    "start": "electron --trace-deprecation .",
+    "build": "electron-builder",
+    "rebuild": "electron-rebuild -f -w ."
+  },
+  "keywords": [],
+  "author": "uncb",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "tesseract.js": "^6.0.1",
+    "util": "^0.12.5",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "electron": "^35.7.2",
+    "electron-builder": "^26.0.12",
+    "electron-rebuild": "^3.2.9",
+    "install": "^0.13.0"
+  },
+  "build": {
+    "appId": "com.shadow.girgit",
+    "productName": "GirGit",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "src/**/*",
+      "assets/icons/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets/",
+        "filter": ["**/*"]
+      }
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "**/*.node",
+      "node_modules/tesseract.js/src/worker/**/*",
+      "node_modules/tesseract.js/dist/worker/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/win/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icons/mac/icon.icns"
+    }
+  }
+}

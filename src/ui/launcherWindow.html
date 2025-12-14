@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GirGit</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background: rgb(0, 0, 0, 0.9);
+        color: #eee;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        height: 100%;
+        padding: 32px 40px;
+        background: #1f1f1f;
+        border-radius: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      h2 {
+        margin: 0 0 18px 0;
+        font-weight: 500;
+        font-size: 22px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+      .btn {
+        flex: 1;
+        padding: 14px 0;
+        font-size: 16px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: 0.15s ease;
+        font-weight: 500;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .chatgpt {
+        background: linear-gradient(
+          135deg,
+          #c0cfcc 0%,
+          #343a37 50%,
+          #c0cfcc 100%
+        );
+        background-size: 200% 200%;
+        background-position: left center;
+        color: #fff;
+        transition: background-position 0.5s ease, transform 0.15s ease;
+      }
+
+      .chatgpt:hover {
+        background-position: right center;
+      }
+
+      .gemini {
+        background: linear-gradient(
+          135deg,
+          #253f6a 0%,
+          #739aee 50%,
+          #253f6a 100%
+        );
+        background-size: 200% 200%;
+        background-position: left center;
+        color: #fff;
+        transition: background-position 0.5s ease, transform 0.15s ease;
+      }
+
+      .gemini:hover {
+        background-position: right center;
+      }
+
+      .shortcuts-title {
+        margin-top: 50px;
+        font-size: 17px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #ddd;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 24px;
+        row-gap: 6px;
+        font-size: 18px;
+        color: #ccc;
+      }
+
+      ul li {
+        padding: 8px 0;
+        border-bottom: 1px solid #2b2b2b;
+      }
+
+      ul li b {
+        color: #fff;
+        font-weight: 500;
+      }
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .modal-box {
+        width: 600px;
+        background: #1f1f1f;
+        padding: 24px;
+        border-radius: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .modal-box h3 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .modal-box textarea {
+        width: 100%;
+        height: 400px;
+        resize: none;
+        background: #111;
+        color: #eee;
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 12px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .modal-actions button {
+        padding: 10px 18px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        background: #444;
+        color: #fff;
+      }
+      .provider-select {
+        display: flex;
+        gap: 10px;
+      }
+
+      .provider-select button {
+        flex: 1;
+        padding: 10px;
+        border-radius: 8px;
+        border: none;
+        background: #2b2b2b;
+        color: #eee;
+        cursor: pointer;
+      }
+
+      .provider-select button.active {
+        background: #4a6ee0;
+      }
+      #promptHint {
+        margin: '0';
+        font-size: 13px;
+        color: #aaa;
+      }
+      .footer-note {
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #2b2b2b;
+        font-size: 13px;
+        color: #aaa;
+        line-height: 1.5;
+      }
+
+      .footer-note p {
+        margin: 4px 0;
+      }
+
+      .footer-note b {
+        color: #fff;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Select AI Provider</h2>
+
+      <div class="actions">
+        <button class="btn chatgpt" onclick="select('chatgpt')">
+          Use ChatGPT
+        </button>
+        <button class="btn gemini" onclick="select('gemini')">
+          Use Gemini
+        </button>
+        <button class="btn prompt" onclick="openPromptBox()">
+          Custom Prompt
+        </button>
+      </div>
+
+      <div class="shortcuts-title">Keyboard Shortcuts</div>
+      <ul>
+        <li><b>Ctrl + ↑</b> — Move window up</li>
+        <li><b>Ctrl + ↓</b> — Move window down</li>
+        <li><b>Ctrl + ←</b> — Move window left</li>
+        <li><b>Ctrl + →</b> — Move window right</li>
+
+        <li><b>Ctrl + Shift + ↑</b> — Scroll up</li>
+        <li><b>Ctrl + Shift + ↓</b> — Scroll down</li>
+
+        <li><b>Ctrl + H</b> — Hide main window</li>
+        <li><b>Ctrl + S</b> — Show main window</li>
+        <li><b>Ctrl + Q</b> — Quit app</li>
+        <li><b>Ctrl + R</b> — Delete screenshot / Reset</li>
+
+        <li><b>Ctrl + Shift + I</b> — Toggle mouse blocking</li>
+        <li><b>Ctrl + L</b> — Take screenshot</li>
+        <li><b>Ctrl + Enter</b> — Send prompt</li>
+      </ul>
+      <div class="footer-note">
+        <p>ℹ️ All windows are resizable and movable.</p>
+
+        <p>
+          ⌨️ This app is designed to be primarily keyboard-driven. Press
+          <b>Ctrl + Shift + I</b> to make it interactable.
+        </p>
+
+        <p>
+          ⚠️ Enabling interaction may cause the app to appear in the taskbar.
+          For a stealth experience, keep it keyboard-driven.
+        </p>
+      </div>
+    </div>
+
+    <div id="promptModal" class="modal hidden">
+      <div class="modal-box">
+        <h3>Custom Prompt</h3>
+        <div class="provider-select">
+          <button onclick="selectPromptProvider('chatgpt')">ChatGPT</button>
+          <button onclick="selectPromptProvider('gemini')">Gemini</button>
+        </div>
+        <p id="promptHint">
+          Select a provider to view or edit its custom prompt.
+        </p>
+        <textarea id="customPrompt" disabled></textarea>
+        <div class="modal-actions">
+          <button onclick="savePrompt()">Save</button>
+          <button onclick="closePromptBox()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let promptProvider = null;
+
+    function select(provider) {
+      // ONLY launch windows
+      window.launcher.chooseProvider(provider);
+    }
+
+    function openPromptBox() {
+      document.getElementById('promptModal').classList.remove('hidden');
+
+      promptProvider = null;
+      document.getElementById('customPrompt').value = '';
+      document.getElementById('customPrompt').disabled = true;
+      document.getElementById('saveBtn').disabled = true;
+
+      document.getElementById('promptHint').style.display = 'block';
+      setActivePromptButton(null);
+    }
+
+    function selectPromptProvider(provider) {
+      promptProvider = provider;
+
+      setActivePromptButton(provider);
+      loadPromptForProvider(provider);
+
+      document.getElementById('customPrompt').disabled = false;
+      document.getElementById('saveBtn').disabled = false;
+      document.getElementById('promptHint').style.display = 'none';
+    }
+
+    function setActivePromptButton(provider) {
+      document
+        .querySelectorAll('.provider-select button')
+        .forEach((btn) => btn.classList.remove('active'));
+
+      if (provider) {
+        document
+          .querySelector(`.provider-select button[onclick*="${provider}"]`)
+          .classList.add('active');
+      }
+    }
+
+    function loadPromptForProvider(provider) {
+      window.launcher.getPrompt().then((data) => {
+        document.getElementById('customPrompt').value = data[provider] || '';
+      });
+    }
+
+    function savePrompt() {
+      const prompt = document.getElementById('customPrompt').value.trim();
+      if (!promptProvider) return;
+
+      window.launcher.saveCustomPrompt(promptProvider, prompt);
+      closePromptBox();
+    }
+
+    function closePromptBox() {
+      document.getElementById('promptModal').classList.add('hidden');
+    }
+  </script>
+</html>
