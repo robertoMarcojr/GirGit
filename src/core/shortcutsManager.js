@@ -9,6 +9,8 @@ function getCurrentMode() {
   return modes[currModeIndex];
 }
 
+let micToggle = false;
+
 function cycleMode() {
   currModeIndex = (currModeIndex + 1) % modes.length;
   const mode = getCurrentMode();
@@ -22,6 +24,7 @@ export function registerShortCuts(
   previewWindow,
   miniWindow,
   mainWindow,
+  audioAddon,
   getCaptureMode,
   sendPromptToRenderer,
   onScreenShotTriggered,
@@ -29,6 +32,8 @@ export function registerShortCuts(
   onDeleteQueue,
   deleteOneScreenshot,
   haltMouseEvent,
+  audioStartController,
+  audioStopController
 ) {
   const step = 50;
   //movement
@@ -70,35 +75,34 @@ export function registerShortCuts(
 
   //scroll page
   globalShortcut.register('Control+Shift+Up', () => {
-    scrollControl(mainWindow,'Up');
+    scrollControl(mainWindow, 'Up');
   });
   globalShortcut.register('Control+Shift+Down', () => {
-    scrollControl(mainWindow,'Down');
+    scrollControl(mainWindow, 'Down');
   });
 
   //off or on
-  globalShortcut.register('Control+H', () => {
-    mainWindow.hide();
-  });
-  globalShortcut.register('Control+S', () => {
-    
-    mainWindow.showInactive();
+  globalShortcut.register('Control+/', () => {
+    if (mainWindow.isVisible()) {
+      mainWindow.hide();
+    } else {
+      mainWindow.showInactive();
+    }
   });
   globalShortcut.register('Control+Q', () => {
     app.quit();
   });
-  globalShortcut.register('Control+R', () => {
+  globalShortcut.register('Control+D', () => {
     onDeleteQueue(previewWindow, miniWindow, OCR_PATH, helper);
   });
-  globalShortcut.register('Control+D', () => {
+  globalShortcut.register('Control+Backspace', () => {
     deleteOneScreenshot(previewWindow, miniWindow, helper);
   });
-  
 
   //mouse
-  globalShortcut.register('Control+Shift+I', () => {
+  globalShortcut.register('Control+Shift+M', () => {
     toggleMouse = !toggleMouse;
-    haltMouseEvent(previewWindow,miniWindow, mainWindow,toggleMouse);
+    haltMouseEvent(previewWindow, miniWindow, mainWindow, toggleMouse);
   });
 
   //cycle Capture modes
@@ -110,13 +114,31 @@ export function registerShortCuts(
 
   globalShortcut.register('Control+L', () => {
     const mode = getCurrentMode();
-    onScreenShotTriggered(previewWindow, miniWindow, mainWindow,mode, helper);
+    onScreenShotTriggered(previewWindow, miniWindow, mainWindow, mode, helper);
   });
 
   //LLM Caller
   globalShortcut.register('Control+Enter', () => {
-    console.log('sending data')
-    sendPromptToRenderer(miniWindow, mainWindow, OCR_PATH, PROMPT_FILE, PROVIDER);
+    console.log('sending data');
+    sendPromptToRenderer(
+      miniWindow,
+      mainWindow,
+      OCR_PATH,
+      PROMPT_FILE,
+      PROVIDER
+    );
+  });
+
+  //Audio Handlers
+  globalShortcut.register('Control+Space', () => {
+    micToggle = !micToggle;
+    if (micToggle) {
+      console.log('in audio start');
+      audioStartController(audioAddon, mainWindow, PROVIDER);
+    } else {
+      console.log('in audio stop');
+      audioStopController(audioAddon, mainWindow, PROVIDER);
+    }
   });
 }
 //Unregister all shortcuts

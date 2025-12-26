@@ -4,8 +4,9 @@
   "description": "A framework for building stealth applications",
   "main": "./main.js",
   "scripts": {
-    "start": "electron --trace-deprecation .",
+    "start": "electron --force-node-api-uncaught-exceptions-policy=true .",
     "build": "electron-builder",
+    "build-node": "cd src/audio && node-gyp configure build",
     "rebuild": "electron-rebuild -f -w ."
   },
   "keywords": [],
@@ -13,6 +14,8 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "node-addon-api": "^8.5.0",
+    "node-gyp": "^12.1.0",
     "tesseract.js": "^6.0.1",
     "util": "^0.12.5",
     "uuid": "^11.1.0"
@@ -33,13 +36,20 @@
     "files": [
       "main.js",
       "src/**/*",
+      "!src/audio/**/*.cpp",
+      "!src/audio/**/*.h",
+      "!src/audio/**/*.c",
+      "!src/audio/build/Release/obj/**/*",
+      "src/audio/build/Release/*.node",
       "assets/icons/**/*"
     ],
     "extraResources": [
       {
         "from": "assets/",
         "to": "assets/",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "asar": true,

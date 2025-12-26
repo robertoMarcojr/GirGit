@@ -33,7 +33,13 @@ import {
 } from './src/utils/logger.js';
 import { WindowsScreenShotHelper } from './src/core/screenshotHelper.js';
 const helper = new WindowsScreenShotHelper();
+
+import {audioStartController, audioStopController } from './src/controller/audioController.js'
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const audioAddon = require('./src/audio/build/Release/audio_capture.node');
 //Locating dir in dev env
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -96,13 +102,16 @@ app.whenReady().then(() => {
       previewWin,
       miniWin,
       mainWindow,
+      audioAddon,
       getCaptureMode,
       sendPromptToRenderer,
       onScreenShotTriggered,
       scrollControl,
       onDeleteQueue,
       deleteOneScreenshot,
-      haltMouseEvent
+      haltMouseEvent,
+      audioStartController,
+      audioStopController,
     );
     session.defaultSession.setPermissionRequestHandler(
       (webContents, permission, callback) => {
