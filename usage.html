@@ -3,169 +3,336 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GirGit Usage & Workflow</title>
+    <title>GirGit - Usage & Workflow</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
+      :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-primary: #3b82f6;
+        --accent-secondary: #8b5cf6;
+        --gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        --nav-bg: rgba(15, 17, 42, 0.8);
+        --code-bg: rgba(0, 0, 0, 0.3);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-          Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 0 1rem;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-main);
         line-height: 1.6;
-        color: #222;
-        background: #f9f9f9;
+        overflow-x: hidden;
       }
-      section {
-        background: white;
-        padding: 1.5rem 2rem;
-        margin-bottom: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+
+      /* Typography */
+      h1, h2, h3 {
+        font-weight: 700;
+        letter-spacing: -0.025em;
       }
-      h1,
-      h2 {
-        color: #4a6ee0;
+
+      code, .mono {
+        font-family: 'JetBrains Mono', monospace;
+        background: var(--code-bg);
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        color: var(--accent-primary);
+        font-size: 0.9em;
       }
-      ul {
-        padding-left: 1.2rem;
-      }
+
       a {
-        color: #4a6ee0;
         text-decoration: none;
+        color: inherit;
+        transition: color 0.2s;
       }
-      a:hover {
-        text-decoration: underline;
-      }
-      .footer {
-        margin-top: 3rem;
-        font-size: 0.85rem;
-        color: #888;
-        text-align: center;
-      }
+
+      /* Navigation */
       nav {
-        background: #007acc;
-        padding: 12px 0;
-        text-align: center;
-        margin-bottom: 2rem;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--nav-bg);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
       }
+
       nav a {
-        color: white;
-        margin: 0 20px;
-        font-weight: 600;
-        text-decoration: none;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-muted);
       }
+
       nav a:hover {
-        text-decoration: underline;
+        color: var(--text-main);
+        text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      }
+
+      .nav-btn {
+        background: rgba(255,255,255,0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        color: var(--text-main) !important;
+        border: 1px solid transparent;
+      }
+
+      .nav-btn:hover {
+        background: rgba(255,255,255,0.2);
+        border-color: rgba(255,255,255,0.3);
+      }
+
+      /* Header */
+      header {
+        text-align: center;
+        padding: 4rem 1rem 3rem;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      header h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+      }
+
+      /* Layout */
+      main {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 1rem 4rem;
+      }
+
+      section {
+        margin-bottom: 4rem;
+      }
+
+      section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      section h2::before {
+        content: '#';
+        color: var(--accent-primary);
+        opacity: 0.6;
+      }
+
+      p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      strong {
+        color: var(--text-main);
+      }
+
+      /* Lists & Grids */
+      .grid-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 12px;
+        border: 1px solid rgba(255,255,255,0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        border-color: var(--accent-primary);
+      }
+
+      .card h3 {
+        color: var(--accent-secondary);
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+      
+      /* Workflow Steps */
+      .workflow-step {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+        align-items: flex-start;
+      }
+      
+      .step-number {
+        background: var(--gradient);
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+        margin-top: 0.2rem;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 3rem 1rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        color: var(--text-muted);
+        font-size: 0.9rem;
       }
     </style>
   </head>
   <body>
     <nav>
       <a href="index.html">Home</a>
-      <a href="usage.html">Usage & Workflow</a>
+      <a href="usage.html" style="color: var(--text-main);">Usage & Workflow</a>
       <a
-        href="https://github.com/RoberotMarcoJr/girgit/releases/latest/download/girgit-setup.exe"
-        class="download-btn"
+        href="https://github.com/robertoMarcojr/GirGit/releases/download/v1.1.0/GirGit_Setup.exe"
+        class="nav-btn"
         download
       >
-        Download Windows Installer (.exe)
+        Download App
       </a>
     </nav>
 
-    <h1>GirGit - How to Use & Workflow</h1>
+    <header>
+      <h1>Usage & Workflow</h1>
+      <p>Master the shortcuts. Stay in the flow.</p>
+    </header>
 
-    <section>
-      <h2>Getting Started</h2>
-      <p>
-        GirGit is designed to be a privacy-first, keyboard-driven AI assistant
-        that stays local to your system. Here’s how to begin using it
-        effectively:
-      </p>
-      <ul>
-        <li>
-          Start the application and select your preferred AI provider (ChatGPT
-          or Gemini).
-        </li>
-        <li>
-          Use global keyboard shortcuts to control the app without interrupting
-          your workflow.
-        </li>
-        <li>
-          Customize prompts if needed to tailor AI responses to your needs.
-        </li>
-      </ul>
-    </section>
+    <main>
+      <section>
+        <h2>Getting Started</h2>
+        <p>
+          GirGit is designed to be invisible until you need it. 
+          It stays local to your system and respects your privacy.
+        </p>
+        <div class="grid-list">
+            <div class="card">
+                <h3>1. Select Provider</h3>
+                <p>Launch the app and choose between ChatGPT or Gemini.</p>
+            </div>
+            <div class="card">
+                <h3>2. Use Shortcuts</h3>
+                <p>Control everything via keyboard without interrupting your work.</p>
+            </div>
+            <div class="card">
+                <h3>3. Customize</h3>
+                <p>Tailor your system prompts to get the exact answers you need.</p>
+            </div>
+        </div>
+      </section>
 
-    <section>
-      <h2>Typical Workflow</h2>
-      <ol>
-        <li>
-          <b>Choose Provider:</b> Use the launcher window to select ChatGPT,
-          Gemini, or custom prompt mode.
-        </li>
-        <li>
-          <b>Capture Screenshot:</b> Press <code>Ctrl + L</code> to take a
-          screenshot of any area on your screen.
-        </li>
-        <li>
-          <b>OCR & Process:</b> GirGit performs local OCR on the captured
-          screenshot to extract text.
-        </li>
-        <li>
-          <b>Send Prompt:</b> Use <code>Ctrl + Enter</code> to send the
-          extracted text with your custom prompt to the AI provider.
-        </li>
-        <li>
-          <b>View Response:</b> The AI response will appear in the preview or
-          main window, depending on your configuration.
-        </li>
-        <li>
-          <b>Audio Interaction:</b> Optionally, toggle audio recording and
-          transcription with <code>Ctrl + Space</code>.
-        </li>
-        <li>
-          <b>Mouse Interaction:</b> By default, the app is keyboard-driven.
-          Enable mouse interaction temporarily with
-          <code>Ctrl + Shift + M</code>.
-        </li>
-        <li>
-          <b>Window Movement & Control:</b> Use arrow keys with
-          <code>Ctrl</code> to move app windows around your screen for
-          convenience.
-        </li>
-      </ol>
-    </section>
+      <section>
+        <h2>Typical Workflow</h2>
+        <div class="card" style="padding: 2rem;">
+            <div class="workflow-step">
+                <div class="step-number">1</div>
+                <div>
+                    <strong>Choose Provider</strong>
+                    <p>Use the launcher window to select ChatGPT, Gemini, or custom prompt mode.</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">2</div>
+                <div>
+                    <strong>Capture Screenshot</strong>
+                    <p>Press <code>Ctrl + L</code> to take a screenshot of any area on your screen (like a coding problem).</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">3</div>
+                <div>
+                    <strong>OCR & Process</strong>
+                    <p>GirGit automatically extracts text from the image locally.</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">4</div>
+                <div>
+                    <strong>Send Prompt</strong>
+                    <p>Press <code>Ctrl + Enter</code> to send the extracted text + your custom prompt to the AI.</p>
+                </div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-number">5</div>
+                <div>
+                    <strong>Interact</strong>
+                    <p>View the response. Toggle audio with <code>Ctrl + Space</code> or mouse mode with <code>Ctrl + Shift + M</code>.</p>
+                </div>
+            </div>
+        </div>
+      </section>
 
-    <section>
-      <h2>Keyboard Shortcuts Summary</h2>
-      <ul>
-        <li><b>Ctrl + ↑↓←→</b> — Move windows</li>
-        <li><b>Ctrl + Shift + ↑↓</b> — Scroll page up/down</li>
-        <li><b>Ctrl + /</b> — Toggle main window visibility</li>
-        <li><b>Ctrl + L</b> — Capture screenshot</li>
-        <li><b>Ctrl + Enter</b> — Send prompt to AI</li>
-        <li><b>Ctrl + Space</b> — Toggle audio recording</li>
-        <li><b>Ctrl + Shift + M</b> — Toggle mouse interaction</li>
-        <li><b>Ctrl + D</b> — Delete all screenshots</li>
-        <li><b>Ctrl + Backspace</b> — Delete last screenshot</li>
-        <li><b>Ctrl + Q</b> — Quit app</li>
-      </ul>
-    </section>
+      <section>
+        <h2>Keyboard Shortcuts</h2>
+        <div class="grid-list">
+            <div class="card">
+                <h3>Navigation</h3>
+                <p><code>Ctrl + ↑↓←→</code><br>Move windows</p>
+                <p style="margin-top:0.5rem"><code>Ctrl + Shift + ↑↓</code><br>Scroll page</p>
+            </div>
+            <div class="card">
+                <h3>Core Actions</h3>
+                <p><code>Ctrl + L</code><br>Capture Screenshot</p>
+                <p style="margin-top:0.5rem"><code>Ctrl + Enter</code><br>Send Prompt</p>
+            </div>
+            <div class="card">
+                <h3>Modes</h3>
+                <p><code>Ctrl + Space</code><br>Toggle Mic/Audio</p>
+                <p style="margin-top:0.5rem"><code>Ctrl + Shift + M</code><br>Toggle Mouse Mode</p>
+            </div>
+            <div class="card">
+                <h3>System</h3>
+                <p><code>Ctrl + /</code><br>Toggle Visibility</p>
+                <p style="margin-top:0.5rem"><code>Ctrl + Q</code><br>Quit App</p>
+            </div>
+             <div class="card">
+                <h3>Management</h3>
+                <p><code>Ctrl + D</code><br>Delete All Screenshots</p>
+                <p style="margin-top:0.5rem"><code>Ctrl + Backspace</code><br>Delete Last Screenshot</p>
+            </div>
+        </div>
+      </section>
 
-    <section>
-      <h2>Privacy & Security</h2>
-      <p>
-        All data processing is done locally on your machine.<br />
-        GirGit does not store, send, or proxy any personal data.<br />
-        AI interactions happen directly between you and the AI provider using
-        your own credentials.
-      </p>
-    </section>
+      <section>
+        <h2>Privacy & Security</h2>
+        <p>
+            GirGit does not store, send, or proxy any personal data. 
+            All processing is done locally, and AI interactions happen directly between 
+            you and the provider using your own credentials.
+        </p>
+      </section>
+    </main>
 
-    <div class="footer">
-      <p>Back to <a href="index.html">Home</a></p>
-      <p>© 2025 RoberotMarcoJr</p>
-    </div>
+    <footer>
+      <p>© 2025 RobertoMarcoJr · MIT License</p>
+    </footer>
   </body>
 </html>
