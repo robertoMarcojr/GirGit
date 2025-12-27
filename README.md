@@ -67,4 +67,4 @@ MIT License
 
 **Hari Vinayak** (GitHub: [robertoMarcojr](https://github.com/robertoMarcojr))
 
-This project is authored and maintained by Hari Vinayak, who uses the GitHub handle `obertoMarcojr`.
+This project is authored and maintained by Hari Vinayak, who uses the GitHub handle `robertoMarcojr`.
