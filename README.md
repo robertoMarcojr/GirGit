@@ -8,7 +8,6 @@ It runs entirely on the user’s system and lets users interact with AI provider
 
 ## Why GirGit
 
-- Local-first design  
 - No APIs, no backend, no telemetry  
 - Keyboard-centric interaction  
 - Optional interactive mode when needed  
