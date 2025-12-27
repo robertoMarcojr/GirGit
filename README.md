@@ -23,7 +23,8 @@ It runs entirely on the user’s system and lets users interact with AI provider
 - Local screenshot capture and OCR workflow  
 - Custom prompt support  
 - Multiple lightweight windows (mini, preview, main)  
-- No analytics, tracking, or remote storage  
+- No analytics, tracking, or remote storage
+- Captures both system and mic audio.
 
 ---
 
@@ -52,12 +53,18 @@ Users are responsible for complying with the rules and policies of the environme
 
 ---
 
+## Architecture
+See the full system architecture here → [Architecture Diagram](docs/GirGit_Architecture.png)
+
+
+---
+
 ## License
 
 MIT License
 
 ## Author
 
-**Hari Vinayak** (GitHub: [RoberotMarcoJr](https://github.com/robertoMarcoJr))
+**Hari Vinayak** (GitHub: [robertoMarcojr](https://github.com/robertoMarcojr))
 
-This project is authored and maintained by Hari Vinayak, who uses the GitHub handle `RoberotMarcoJr`.
+This project is authored and maintained by Hari Vinayak, who uses the GitHub handle `obertoMarcojr`.
