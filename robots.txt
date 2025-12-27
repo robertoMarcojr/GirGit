@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
-Sitemap: https://robertoMarcojr.github.io/GirGit/sitemap.xml
+Sitemap: https://robertomarcojr.github.io/GirGit/sitemap.xml
+
